@@ -15,6 +15,7 @@ const en = {
     users: {
       invalid_user_id:
         "Must be a fully qualified Matrix user-id, e.g. @user_id:homeserver",
+      tabs: { sso: "SSO" },
     },
     rooms: {
       tabs: {
@@ -125,6 +126,7 @@ const en = {
         address: "Address",
         creation_ts_ms: "Creation timestamp",
         consent_version: "Consent version",
+        auth_provider: "Provider",
       },
       helper: {
         deactivate: "You must provide a password to re-activate an account.",

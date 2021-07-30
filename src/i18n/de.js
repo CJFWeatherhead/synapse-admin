@@ -15,6 +15,7 @@ const de = {
     users: {
       invalid_user_id:
         "Muss eine vollständige Matrix Benutzer-ID sein, z.B. @benutzer_id:homeserver",
+      tabs: { sso: "SSO" },
     },
     rooms: {
       details: "Raumdetails",
@@ -121,6 +122,7 @@ const de = {
         address: "Adresse",
         creation_ts_ms: "Zeitpunkt der Erstellung",
         consent_version: "Zugestimmte Geschäftsbedingungen",
+        auth_provider: "Provider",
       },
       helper: {
         deactivate:
