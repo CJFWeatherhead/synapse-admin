@@ -1,6 +1,6 @@
 import englishMessages from "ra-language-english";
 
-export default {
+const en = {
   ...englishMessages,
   synapseadmin: {
     auth: {
@@ -22,11 +22,6 @@ export default {
         members: "Members",
         detail: "Details",
         permission: "Permissions",
-      },
-      delete: {
-        title: "Delete room",
-        message:
-          "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
       },
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
@@ -142,16 +137,23 @@ export default {
         canonical_alias: "Alias",
         joined_members: "Members",
         joined_local_members: "Local members",
-        state_events: "State events",
+        joined_local_devices: "Local devices",
+        state_events: "State events / Complexity",
         version: "Version",
         is_encrypted: "Encrypted",
         encryption: "Encryption",
         federatable: "Federatable",
-        public: "Public",
+        public: "Visible in room directory",
         creator: "Creator",
         join_rules: "Join rules",
         guest_access: "Guest access",
         history_visibility: "History visibility",
+        topic: "Topic",
+        avatar: "Avatar",
+      },
+      helper: {
+        forward_extremities:
+          "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
       },
       enums: {
         join_rules: {
@@ -171,6 +173,11 @@ export default {
           world_readable: "Anyone",
         },
         unencrypted: "Unencrypted",
+      },
+      erase: {
+        title: "Delete room",
+        content:
+          "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
       },
     },
     reports: {
@@ -226,13 +233,29 @@ export default {
       name: "Media",
       fields: {
         media_id: "Media ID",
-        media_length: "Lenght",
+        media_length: "File Size (in Bytes)",
         media_type: "Type",
         upload_name: "File name",
         quarantined_by: "Quarantined by",
         safe_from_quarantine: "Safe from quarantine",
         created_ts: "Created",
         last_access_ts: "Last access",
+      },
+    },
+    delete_media: {
+      name: "Media",
+      fields: {
+        before_ts: "last access before",
+        size_gt: "Larger then (in bytes)",
+        keep_profiles: "Keep profile images",
+      },
+      action: {
+        send: "Delete media",
+        send_success: "Request successfully sent.",
+        send_failure: "An error has occurred.",
+      },
+      helper: {
+        send: "This API deletes the local media from the disk of your own server. This includes any local thumbnails and copies of media downloaded. This API will not affect media that has been uploaded to external media repositories.",
       },
     },
     pushers: {
@@ -261,8 +284,7 @@ export default {
         send_failure: "An error has occurred.",
       },
       helper: {
-        send:
-          'Sends a server notice to the selected users. The feature "Server Notices" has to be activated at the server.',
+        send: 'Sends a server notice to the selected users. The feature "Server Notices" has to be activated at the server.',
       },
     },
     user_media_statistics: {
@@ -272,5 +294,41 @@ export default {
         media_length: "Media length",
       },
     },
+    forward_extremities: {
+      name: "Forward Extremities",
+      fields: {
+        id: "Event ID",
+        received_ts: "Timestamp",
+        depth: "Depth",
+        state_group: "State group",
+      },
+    },
+    room_state: {
+      name: "State events",
+      fields: {
+        type: "Type",
+        content: "Content",
+        origin_server_ts: "time of send",
+        sender: "Sender",
+      },
+    },
+    room_directory: {
+      name: "Room directory",
+      fields: {
+        world_readable: "guest users may view without joining",
+        guest_can_join: "guest users may join",
+      },
+      action: {
+        title:
+          "Delete room from directory |||| Delete %{smart_count} rooms from directory",
+        content:
+          "Are you sure you want to remove this room from directory? |||| Are you sure you want to remove these %{smart_count} rooms from directory",
+        erase: "Delete from room directory",
+        create: "Publish in room directory",
+        send_success: "Room successfully published.",
+        send_failure: "An error has occurred.",
+      },
+    },
   },
 };
+export default en;

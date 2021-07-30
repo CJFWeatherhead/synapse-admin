@@ -67,9 +67,8 @@ const resourceMap = {
       return json.total_rooms;
     },
     delete: params => ({
-      endpoint: `/_synapse/admin/v1/rooms/${params.id}/delete`,
+      endpoint: `/_synapse/admin/v1/rooms/${params.id}`,
       body: { block: false },
-      method: "POST",
     }),
   },
   reports: {
@@ -117,6 +116,19 @@ const resourceMap = {
       return json.total;
     },
   },
+  room_state: {
+    map: rs => ({
+      ...rs,
+      id: rs.event_id,
+    }),
+    reference: id => ({
+      endpoint: `/_synapse/admin/v1/rooms/${id}/state`,
+    }),
+    data: "state",
+    total: json => {
+      return json.state.length;
+    },
+  },
   pushers: {
     map: p => ({
       ...p,
@@ -160,6 +172,16 @@ const resourceMap = {
       )}/${params.id}`,
     }),
   },
+  delete_media: {
+    delete: params => ({
+      endpoint: `/_synapse/admin/v1/media/${localStorage.getItem(
+        "home_server"
+      )}/delete?before_ts=${params.before_ts}&size_gt=${
+        params.size_gt
+      }&keep_profiles=${params.keep_profiles}`,
+      method: "POST",
+    }),
+  },
   servernotices: {
     map: n => ({ id: n.event_id }),
     create: data => ({
@@ -184,6 +206,46 @@ const resourceMap = {
     total: json => {
       return json.total;
     },
+  },
+  forward_extremities: {
+    map: fe => ({
+      ...fe,
+      id: fe.event_id,
+    }),
+    reference: id => ({
+      endpoint: `/_synapse/admin/v1/rooms/${id}/forward_extremities`,
+    }),
+    data: "results",
+    total: json => {
+      return json.count;
+    },
+    delete: params => ({
+      endpoint: `/_synapse/admin/v1/rooms/${params.id}/forward_extremities`,
+    }),
+  },
+  room_directory: {
+    path: "/_matrix/client/r0/publicRooms",
+    map: rd => ({
+      ...rd,
+      id: rd.room_id,
+      public: !!rd.public,
+      guest_access: !!rd.guest_access,
+      avatar_src: mxcUrlToHttp(rd.avatar_url),
+    }),
+    data: "chunk",
+    total: json => {
+      return json.total_room_count_estimate;
+    },
+    create: params => ({
+      endpoint: `/_matrix/client/r0/directory/list/room/${params.id}`,
+      body: { visibility: "public" },
+      method: "PUT",
+    }),
+    delete: params => ({
+      endpoint: `/_matrix/client/r0/directory/list/room/${params.id}`,
+      body: { visibility: "private" },
+      method: "PUT",
+    }),
   },
 };
 
@@ -267,10 +329,13 @@ const dataProvider = {
   getManyReference: (resource, params) => {
     console.log("getManyReference " + resource);
     const { page, perPage } = params.pagination;
+    const { field, order } = params.sort;
     const from = (page - 1) * perPage;
     const query = {
       from: from,
       limit: perPage,
+      order_by: field,
+      dir: getSearchOrder(order),
     };
 
     const homeserver = localStorage.getItem("base_url");

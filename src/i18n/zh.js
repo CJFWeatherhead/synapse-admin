@@ -1,6 +1,6 @@
 import chineseMessages from "ra-language-chinese";
 
-export default {
+const zh = {
   ...chineseMessages,
   synapseadmin: {
     auth: {
@@ -233,6 +233,22 @@ export default {
         last_access_ts: "上一次访问",
       },
     },
+    delete_media: {
+      name: "媒体文件",
+      fields: {
+        before_ts: "最后访问时间",
+        size_gt: "大于 (字节)",
+        keep_profiles: "保留头像",
+      },
+      action: {
+        send: "删除媒体",
+        send_success: "请求发送成功。",
+        send_failure: "出现了一个错误。",
+      },
+      helper: {
+        send: "这个API会删除您硬盘上的本地媒体。包含了任何的本地缓存和下载的媒体备份。这个API不会影响上传到外部媒体存储库上的媒体文件。",
+      },
+    },
     pushers: {
       name: "发布者",
       fields: {
@@ -259,8 +275,7 @@ export default {
         send_failure: "出现了一个错误。",
       },
       helper: {
-        send:
-          '向选中的用户发送服务器提示。服务器配置中的 "服务器提示(Server Notices)" 选项需要被设置为启用。',
+        send: '向选中的用户发送服务器提示。服务器配置中的 "服务器提示(Server Notices)" 选项需要被设置为启用。',
       },
     },
     user_media_statistics: {
@@ -272,3 +287,4 @@ export default {
     },
   },
 };
+export default zh;

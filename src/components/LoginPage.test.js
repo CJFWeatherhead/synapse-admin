@@ -1,11 +1,11 @@
 import React from "react";
-import { TestContext } from "react-admin";
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
+import { TestContext } from "ra-test";
 import LoginPage from "./LoginPage";
 
 describe("LoginForm", () => {
   it("renders", () => {
-    shallow(
+    render(
       <TestContext>
         <LoginPage />
       </TestContext>
