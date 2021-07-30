@@ -23,6 +23,11 @@ const en = {
         detail: "Details",
         permission: "Permissions",
       },
+      delete: {
+        title: "Delete room",
+        message:
+          "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
+      },
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
   },
